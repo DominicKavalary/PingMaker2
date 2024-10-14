@@ -26,7 +26,7 @@ def PingandWrite(Address):
               errtime = time.strftime("%H:%M:%S")
               statfile.write("\nTarget: "+target + "PacketLoss:"+str(pktloss)+ ", Time: "+errtime)
     except:
-        with open('NotWorking.txt','a') as f:
+        with open("/home/PingMaker/PingStats"+Address+".txt", "a") as f:
                 f.write(Address)
 
 ####open targets file#####
