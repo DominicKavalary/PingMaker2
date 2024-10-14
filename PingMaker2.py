@@ -26,8 +26,9 @@ def PingandWrite(Address):
               errtime = time.strftime("%H:%M:%S")
               statfile.write("\nTarget: "+target + "PacketLoss:"+str(pktloss)+ ", Time: "+errtime)
     except:
-        with open("/home/PingMaker/PingStats"+Address+".txt", "a") as f:
-                f.write(Address)
+      FileName = ("/home/PingMaker/PingStats"+Address+".txt").replace("\n","")
+      with open(FileName, "a") as f:
+        f.write(Address)
 
 ####open targets file#####
 ListofTargets = []
@@ -41,4 +42,4 @@ while 1==1:
   for Address in ListofTargets:
     PingThread = threading.Thread(target=PingandWrite, args=(Address,))
     PingThread.start()
-  time.sleep(2)
+  time.sleep(5)
