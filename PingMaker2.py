@@ -16,7 +16,7 @@ def getOutput(Command):
 #Ping and write thread function#
 def PingandWrite(Address):
     try:
-      Command = "ping -c 4" + Address
+      Command = "ping -c 4 " + Address
       output = getOutput(Command)
       for line in output:
         if "% packet loss" in line:
@@ -38,7 +38,7 @@ with open("/home/PingMaker/PingMakerTargets.txt", "r") as targetFile:
 ####multithres ping targets and wirte to file###
 # never stop until script is canceled
 while 1==1:
-  for Address in ListofAddresses:
+  for Address in ListofTargets:
     PingThread = threading.Thread(target=PingandWrite, args=(Address,))
     PingThread.start()
   time.sleep(2)
