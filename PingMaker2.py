@@ -20,7 +20,7 @@ def PingandWrite(Address):
       output = getOutput(Command)
       for line in output:
         if "% packet loss" in line:
-          pktloss = int(line.split(', ')[2].split(" ")[0][:-1])
+          pktloss = int(line.split(', ')[3].split(" ")[0][:-1])
           if pktloss > 25:
             with open("/home/PingMaker/PingStats"+Address+".txt", "a") as statfile:
               errtime = time.strftime("%H:%M:%S")
