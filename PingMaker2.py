@@ -4,9 +4,10 @@ import time
 import requests
 import threading
 import subprocess
+import os.path
 
-###Functions###
-#subprocess output grab function#
+##Functions###
+#subprocess outputgrab function#
 def getOutput(Command):
   temp = subprocess.Popen(Command, shell=True, stdout=subprocess.PIPE)
   output,error = temp.communicate()
@@ -16,41 +17,35 @@ def getOutput(Command):
 
 #Ping and write thread function#
 def PingandWrite(Address):
-#    try:
-# replace newlines in address. if doesnt work replace them later on in the text
       Address = Address.replace("\n","")
-# make the command and get its output
       Command = "ping -c 4 " + Address
       output = getOutput(Command)
-# for every line in that output, grab the packetloss
       for line in output:
         if "% packet loss" in line:
           pktloss = int(line.split(', ')[2].split(" ")[0][:-1])
-# if packet loss is greater than 25%, write the timestamp and packet loss to a text file
           if pktloss > 25:
-            with open("/home/PingMaker/PingStats_"+Address+".txt", "a") as statfile:
+            with open("/home/PingMaker/csv/"+Address+".csv", "a") as statfilecsv:
               errtime = time.strftime("%D:%H:%M:%S")
-              statfile.write("\nTarget: "+Address + " | PacketLoss: %"+str(pktloss)+ " | Time: "+errtime)
+              if csvExists:
+                statfilecsv.write("\n"+Address +","+str(pktloss)+","+errtime)
+              else:
+                statfilecsv.write("Address,pktloss,errtime")
+                statfilecsv.write("\n"+Address+","+str(pktloss)+","+errtime)
 
-    #except:
+####Create Directory#####
+subprocess.Popen("mkdir /home/PingMaker/csv", shell=True, stdout=subprocess.PIPE)
 
-   #   FileName = ("/home/PingMaker/PingStats"+Address+".txt").replace("\n","")
-
-  #    with open(FileName, "a") as f:
-
- #       f.write(Address)
-
-#### MAIN ####
-###open targets file and create list of targets###
+####MAIN####
 ListofTargets = []
 with open("/home/PingMaker/PingMakerTargets.txt", "r") as targetFile:
   for line in targetFile:
     ListofTargets.append(line)
 
-####multithread ping targets###
-#never stop until script is canceled, sleep for 5 seconds before doing another thread
+####multithres ping targets and wirte to file###
+# never stop until script is canceled
+
 while 1==1:
   for Address in ListofTargets:
     PingThread = threading.Thread(target=PingandWrite, args=(Address,))
     PingThread.start()
-  time.sleep(2)
+  time.sleep(1)
