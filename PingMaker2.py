@@ -4,7 +4,6 @@ import time
 import requests
 import threading
 import subprocess
-import os
 
 ##Functions###
 #subprocess outputgrab function#
@@ -17,31 +16,21 @@ def getOutput(Command):
 
 #Ping and write thread function#
 def PingandWrite(Address):
-    try:
-      errtime = time.strftime("%D:%H:%M:%S")
-      Address = Address.replace("\n","")
-      Command = "ping -c 4 " + Address
-      output = getOutput(Command)
-      packetLossNotFound = True
-      for line in output:
-        if "% packet loss" in line:
-          packetLossNotFound = False
-          pktloss = int(line.split(', ')[2].split(" ")[0][:-1])
-          if pktloss > 25:
-            csvExists = os.path.exists("/home/PingMaker/csv/"+Address+".csv")
-            print(csvExists)
-            with open("/home/PingMaker/csv/"+Address+".csv", "a") as statfilecsv:
-              if csvExists:
-                statfilecsv.write("\n"+Address +","+str(pktloss)+","+errtime)
-              else:
-                statfilecsv.write("pktloss,errtime")
-                statfilecsv.write("\n"+str(pktloss)+","+errtime)
-      if packetLossNotFound:
-        with open("/home/PingMaker/errors/"+Address, "a") as errfile:
-          errfile.write("No info found for: "+Address+", check format of address")
-    except:
+  errtime = time.strftime("%D:%H:%M:%S")
+  Address = Address.replace("\n","")
+  Command = "ping -c 4 " + Address
+  output = getOutput(Command)
+  infoNotFound = True
+  for line in output:
+    if "% packet loss" in line:
+      infoNotFound = False
+      pktloss = int(line.split(', ')[2].split(" ")[0][:-1])
+        if pktloss > 25:
+        with open("/home/PingMaker/csv/"+Address+".csv", "a") as statfilecsv:
+            statfilecsv.write("\n"+str(pktloss)+","+errtime)
+    if infoNotFound:
       with open("/home/PingMaker/errors/"+Address, "a") as errfile:
-        errfile.write("Unkown error with pinging host "+Address+", "+errtime)
+        errfile.write("\nNo info found for: "+Address+", check format of address")
 
 ####Create Directory#####
 subprocess.Popen("mkdir /home/PingMaker/csv", shell=True, stdout=subprocess.PIPE)
@@ -52,7 +41,9 @@ ListofTargets = []
 with open("/home/PingMaker/PingMakerTargets.txt", "r") as targetFile:
   for line in targetFile:
     ListofTargets.append(line)
-
+for target in ListofTargets:
+  with open("/home/PingMaker/csv/"+target.replace("\n","")+".csv", "a") as statfilecsv:
+    statfilecsv.write("pktloss,errtime")
 ####multithres ping targets and wirte to file###
 # never stop until script is canceled
 
