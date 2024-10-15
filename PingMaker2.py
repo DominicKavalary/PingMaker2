@@ -17,20 +17,30 @@ def getOutput(Command):
 
 #Ping and write thread function#
 def PingandWrite(Address):
+    try:
+      errtime = time.strftime("%D:%H:%M:%S")
       Address = Address.replace("\n","")
       Command = "ping -c 4 " + Address
       output = getOutput(Command)
+
+      packetLossNotFound = True
       for line in output:
         if "% packet loss" in line:
+          packetLossFound = False
           pktloss = int(line.split(', ')[2].split(" ")[0][:-1])
           if pktloss > 25:
             with open("/home/PingMaker/csv/"+Address+".csv", "a") as statfilecsv:
-              errtime = time.strftime("%D:%H:%M:%S")
               if csvExists:
                 statfilecsv.write("\n"+Address +","+str(pktloss)+","+errtime)
               else:
                 statfilecsv.write("Address,pktloss,errtime")
                 statfilecsv.write("\n"+Address+","+str(pktloss)+","+errtime)
+      if packetLossNotFound:
+        with open("/home/PingMaker/errors/"+Address, "a") as errfile:
+        errfile.write(output+"\n---"+errtime+"---")
+    except:
+      with open("/home/PingMaker/errors/"+Address, "a") as errfile:
+        errfile.write("Unkown error with pinging host "+Address+", "+errtime)
 
 ####Create Directory#####
 subprocess.Popen("mkdir /home/PingMaker/csv", shell=True, stdout=subprocess.PIPE)
