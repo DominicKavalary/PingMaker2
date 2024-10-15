@@ -1,7 +1,6 @@
 #### Setup ####
 ###Imports###
 import time
-import requests
 import threading
 import subprocess
 
