@@ -30,7 +30,7 @@ def PingandWrite(Address):
           if pktloss > 25:
             with open("/home/PingMaker/PingStats_"+Address+".txt", "a") as statfile:
               errtime = time.strftime("%D:%H:%M:%S")
-              statfile.write("\nTarget: "+Address + " PacketLoss:"+str(pktloss)+ ", Time: "+errtime)
+              statfile.write("\nTarget: "+Address + " | PacketLoss: %"+str(pktloss)+ ", | Time: "+errtime)
 
     #except:
 
