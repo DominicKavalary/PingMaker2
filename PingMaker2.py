@@ -28,9 +28,9 @@ def PingandWrite(Address):
       if pktloss > 25:
         with open("/home/PingMaker/csv/"+Address+".csv", "a") as statfilecsv:
           statfilecsv.write("\n"+str(pktloss)+","+errtime)
-    if infoNotFound:
-      with open("/home/PingMaker/errors/"+Address, "a") as errfile:
-        errfile.write("\nNo info found for: "+Address+", check format of address")
+  if infoNotFound:
+    with open("/home/PingMaker/errors/"+Address, "a") as errfile:
+      errfile.write("\nNo info found for: "+Address+", check format of address")
 
 ####Create Directory#####
 subprocess.Popen("mkdir /home/PingMaker/csv", shell=True, stdout=subprocess.PIPE)
@@ -42,7 +42,7 @@ with open("/home/PingMaker/PingMakerTargets.txt", "r") as targetFile:
   for line in targetFile:
     ListofTargets.append(line)
 for target in ListofTargets:
-  with open("/home/PingMaker/csv/"+target.replace("\n","")+".csv", "a") as statfilecsv:
+  with open("/home/PingMaker/csv/"+target.replace("\n","")+".csv", "a+") as statfilecsv:
     statfilecsv.write("pktloss,errtime")
 ####multithres ping targets and wirte to file###
 # never stop until script is canceled
