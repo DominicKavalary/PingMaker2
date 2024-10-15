@@ -28,7 +28,7 @@ def PingandWrite(Address):
           pktloss = int(line.split(', ')[2].split(" ")[0][:-1])
 # if packet loss is greater than 25%, write the timestamp and packet loss to a text file
           if pktloss > 25:
-            with open("/home/PingMaker/PingStats"+Address+".txt", "a") as statfile:
+            with open("/home/PingMaker/PingStats_"+Address+".txt", "a") as statfile:
               errtime = time.strftime("%D:%H:%M:%S")
               statfile.write("\nTarget: "+Address + " PacketLoss:"+str(pktloss)+ ", Time: "+errtime)
 
@@ -45,7 +45,7 @@ def PingandWrite(Address):
 ListofTargets = []
 with open("/home/PingMaker/PingMakerTargets.txt", "r") as targetFile:
   for line in targetFile:
-    ListofTargets=line.split(",")
+    ListofTargets.append(line)
 
 ####multithread ping targets###
 #never stop until script is canceled, sleep for 5 seconds before doing another thread
@@ -53,4 +53,4 @@ while 1==1:
   for Address in ListofTargets:
     PingThread = threading.Thread(target=PingandWrite, args=(Address,))
     PingThread.start()
-  time.sleep(5)
+  time.sleep(2)
