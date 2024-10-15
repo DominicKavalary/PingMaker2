@@ -26,7 +26,7 @@ def PingandWrite(Address):
       packetLossNotFound = True
       for line in output:
         if "% packet loss" in line:
-          packetLossFound = False
+          packetLossNotFound = False
           pktloss = int(line.split(', ')[2].split(" ")[0][:-1])
           if pktloss > 25:
             csvExists = os.path.exists("/home/PingMaker/csv/"+Address)
@@ -37,8 +37,9 @@ def PingandWrite(Address):
                 statfilecsv.write("Address,pktloss,errtime")
                 statfilecsv.write("\n"+Address+","+str(pktloss)+","+errtime)
       if packetLossNotFound:
-        with open("/home/PingMaker/errors/"+Address, "a") as errfile:
-        errfile.write(output+"\n---"+errtime+"---")
+        if "or service not known" in output:
+          with open("/home/PingMaker/errors/"+Address, "a") as errfile:
+            errfile.write("Name or Service Not Known for Target: "+Address)
     except:
       with open("/home/PingMaker/errors/"+Address, "a") as errfile:
         errfile.write("Unkown error with pinging host "+Address+", "+errtime)
