@@ -24,7 +24,7 @@ def PingandWrite(Address):
           if pktloss > 25:
             with open("/home/PingMaker/PingStats"+Address+".txt", "a") as statfile:
               errtime = time.strftime("%H:%M:%S")
-              statfile.write("\nTarget: "+target + "PacketLoss:"+str(pktloss)+ ", Time: "+errtime)
+              statfile.write("\nTarget: "+Address + "PacketLoss:"+str(pktloss)+ ", Time: "+errtime)
     except:
       FileName = ("/home/PingMaker/PingStats"+Address+".txt").replace("\n","")
       with open(FileName, "a") as f:
