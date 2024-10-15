@@ -26,7 +26,7 @@ def PingandWrite(Address):
       infoNotFound = False
       pktloss = int(line.split(', ')[2].split(" ")[0][:-1])
         if pktloss > 25:
-        with open("/home/PingMaker/csv/"+Address+".csv", "a") as statfilecsv:
+          with open("/home/PingMaker/csv/"+Address+".csv", "a") as statfilecsv:
             statfilecsv.write("\n"+str(pktloss)+","+errtime)
     if infoNotFound:
       with open("/home/PingMaker/errors/"+Address, "a") as errfile:
