@@ -31,7 +31,8 @@ def getOutput(Command):
 def PingandWrite(Address):
 
 #    try:
-
+      Address = Address.replace("\n","")
+  
       Command = "ping -c 4 " + Address
 
       output = getOutput(Command)
