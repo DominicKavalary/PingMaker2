@@ -1,1 +1,5 @@
-give chmod 777 to pingmaker.py
+Give chmod 777 to PingMaker.py??? Forget if needed
+Create service file in "/etc/systemd/system/PingMaker.service”
+sudo systemctl daemon-reload
+sudo systemctl enable PingMaker
+sudo systemctl start PingMaker
