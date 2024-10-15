@@ -44,6 +44,7 @@ def PingandWrite(Address):
 
 ####Create Directory#####
 subprocess.Popen("mkdir /home/PingMaker/csv", shell=True, stdout=subprocess.PIPE)
+subprocess.Popen("mkdir /home/PingMaker/errors", shell=True, stdout=subprocess.PIPE)
 
 ####MAIN####
 ListofTargets = []
