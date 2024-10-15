@@ -34,7 +34,7 @@ def PingandWrite(Address):
 ListofTargets = []
 with open("/home/PingMaker/PingMakerTargets.txt", "r") as targetFile:
   for line in targetFile:
-    ListofTargets.append(line)
+    ListofTargets=line.split(",")
 
 ####multithres ping targets and wirte to file###
 # never stop until script is canceled
