@@ -4,7 +4,7 @@ import time
 import requests
 import threading
 import subprocess
-import os.path
+import os
 
 ##Functions###
 #subprocess outputgrab function#
@@ -34,8 +34,8 @@ def PingandWrite(Address):
               if csvExists:
                 statfilecsv.write("\n"+Address +","+str(pktloss)+","+errtime)
               else:
-                statfilecsv.write("Address,pktloss,errtime")
-                statfilecsv.write("\n"+Address+","+str(pktloss)+","+errtime)
+                statfilecsv.write("pktloss,errtime")
+                statfilecsv.write("\n"+str(pktloss)+","+errtime)
       if packetLossNotFound:
         with open("/home/PingMaker/errors/"+Address, "a") as errfile:
           errfile.write("No info found for: "+Address+", check format of address")
