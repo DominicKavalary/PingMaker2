@@ -6,5 +6,4 @@ sudo systemctl enable PingMaker
 sudo systemctl start PingMaker
 
 What this does NOT do yet.
-- check to see if address in target list is valid in any way
 - handle failures to ping due to bad target
