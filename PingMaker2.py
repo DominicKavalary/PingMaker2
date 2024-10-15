@@ -22,14 +22,14 @@ def PingandWrite(Address):
       Address = Address.replace("\n","")
       Command = "ping -c 4 " + Address
       output = getOutput(Command)
-
       packetLossNotFound = True
       for line in output:
         if "% packet loss" in line:
           packetLossNotFound = False
           pktloss = int(line.split(', ')[2].split(" ")[0][:-1])
           if pktloss > 25:
-            csvExists = os.path.exists("/home/PingMaker/csv/"+Address)
+            csvExists = os.path.exists("/home/PingMaker/csv/"+Address+".csv")
+            print(csvExists)
             with open("/home/PingMaker/csv/"+Address+".csv", "a") as statfilecsv:
               if csvExists:
                 statfilecsv.write("\n"+Address +","+str(pktloss)+","+errtime)
@@ -37,9 +37,8 @@ def PingandWrite(Address):
                 statfilecsv.write("Address,pktloss,errtime")
                 statfilecsv.write("\n"+Address+","+str(pktloss)+","+errtime)
       if packetLossNotFound:
-        if "or service not known" in output:
-          with open("/home/PingMaker/errors/"+Address, "a") as errfile:
-            errfile.write("Name or Service Not Known for Target: "+Address)
+        with open("/home/PingMaker/errors/"+Address, "a") as errfile:
+          errfile.write("No info found for: "+Address+", check format of address")
     except:
       with open("/home/PingMaker/errors/"+Address, "a") as errfile:
         errfile.write("Unkown error with pinging host "+Address+", "+errtime)
