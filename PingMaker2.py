@@ -29,6 +29,7 @@ def PingandWrite(Address):
           packetLossFound = False
           pktloss = int(line.split(', ')[2].split(" ")[0][:-1])
           if pktloss > 25:
+            csvExists = os.path.exists("/home/PingMaker/csv/"+Address)
             with open("/home/PingMaker/csv/"+Address+".csv", "a") as statfilecsv:
               if csvExists:
                 statfilecsv.write("\n"+Address +","+str(pktloss)+","+errtime)
