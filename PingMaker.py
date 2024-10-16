@@ -43,7 +43,6 @@ with open("/home/PingMaker/PingMakerTargets.txt", "r") as targetFile:
     if "/" in line:
       usableSubnet = [str(ip) for ip in ipaddress.IPv4Network(line.replace("\n",""))]
       for ip in usableSubnet[1:-1]:
-        print(ip)
         ListofTargets.append(str(ip))
     else:
       ListofTargets.append(line)
