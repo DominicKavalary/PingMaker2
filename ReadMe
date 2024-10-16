@@ -11,3 +11,6 @@ Make your targets like this:
 
 Or like this:
 192.168.1.0/24
+
+
+### ooh an idea is to do an ExecStopPost= in the service file in order to run a cleanup script and erase any empty csvs, as well as compile all of them into a single excel spreadsheet with a sheet per ip
